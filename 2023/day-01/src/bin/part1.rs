@@ -1,5 +1,5 @@
 fn main() {
-    let input = include_str!("input1.txt");
+    let input = include_str!("day1-input.txt");
     let output = part1(input);
     dbg!(output);
 }
