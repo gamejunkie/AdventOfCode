@@ -1,33 +1,61 @@
+static POSSIBLE_NUMBER_SET: &[(char, &str)] = &[
+    ('1', "one"),
+    ('2', "two"),
+    ('3', "three"),
+    ('4', "four"),
+    ('5', "five"),
+    ('6', "six"),
+    ('7', "seven"),
+    ('8', "eight"),
+    ('9', "nine"),
+];
 fn main() {
     let input = include_str!("day1-input.txt");
-    let output = part1(input);
-    dbg!(output);
+    let output = process(input);
+    println!("============================");
+    println!("Day 1 - Part 1 Answer: {}", output);
+    println!("============================");
 }
 
-fn part1(input: &str) -> String {
-    let mut answer: i32 = 0;
-    for row in input.lines() {
-        let mut found_first = false;
+fn get_number_from_text(slice: &str) -> i32 {
+    let mut final_vec: Vec<(usize, &str)> = Vec::new();
 
-        let mut first_digit = '0';
-        let mut second_digit = '0';
-        for checkchar in row.chars() {
-            if checkchar.is_numeric() {
-                if !found_first {
-                    first_digit = checkchar;
-                    second_digit = first_digit; // Handle the case where there is only ever one digit in row.
-                    found_first = true;
-                } else {
-                    second_digit = checkchar; // Track each digit as we progress through the row.
-                }
-            }
+    for (charnum, _strnum) in POSSIBLE_NUMBER_SET {
+        final_vec.append(&mut slice.match_indices(*charnum).collect());
+    }
+
+    let mut max_num = (0, "");
+    let mut min_num = (slice.len(), "");
+
+    for (index, matched) in final_vec {
+        if index >= max_num.0 {
+            max_num = (index, matched);
         }
+        if index <= min_num.0 {
+            min_num = (index, matched);
+        }
+    }
 
-        let temp_answer = (first_digit.to_string() + &second_digit.to_string())
-            .parse::<i32>()
-            .unwrap();
+    let leftnum = POSSIBLE_NUMBER_SET
+        .iter()
+        .find(|&&val| val.0.to_string() == min_num.1 || val.1 == min_num.1)
+        .unwrap();
 
-        answer += temp_answer;
+    let rightnum = POSSIBLE_NUMBER_SET
+        .iter()
+        .find(|&&val| val.0.to_string() == max_num.1 || val.1 == max_num.1)
+        .unwrap();
+
+    (leftnum.0.to_string() + &rightnum.0.to_string())
+        .parse::<i32>()
+        .unwrap()
+}
+
+fn process(input: &str) -> String {
+    let mut answer: i32 = 0;
+
+    for row in input.lines() {
+        answer += get_number_from_text(row);
     }
 
     answer.to_string()

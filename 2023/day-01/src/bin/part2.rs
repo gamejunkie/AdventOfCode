@@ -17,7 +17,7 @@ fn main() {
     println!("============================");
 }
 
-fn find_min_max_digits(slice: &str) -> i32 {
+fn get_number_from_text(slice: &str) -> i32 {
     let mut final_vec: Vec<(usize, &str)> = Vec::new();
 
     for (charnum, strnum) in POSSIBLE_NUMBER_SET {
@@ -39,13 +39,15 @@ fn find_min_max_digits(slice: &str) -> i32 {
 
     let leftnum = POSSIBLE_NUMBER_SET
         .iter()
-        .find(|&&val| val.0.to_string() == min_num.1 || val.1 == min_num.1);
+        .find(|&&val| val.0.to_string() == min_num.1 || val.1 == min_num.1)
+        .unwrap();
 
     let rightnum = POSSIBLE_NUMBER_SET
         .iter()
-        .find(|&&val| val.0.to_string() == max_num.1 || val.1 == max_num.1);
+        .find(|&&val| val.0.to_string() == max_num.1 || val.1 == max_num.1)
+        .unwrap();
 
-    ((leftnum.unwrap().0).to_string() + &(rightnum.unwrap().0).to_string())
+    (leftnum.0.to_string() + &rightnum.0.to_string())
         .parse::<i32>()
         .unwrap()
 }
@@ -54,7 +56,7 @@ fn process(input: &str) -> String {
     let mut answer: i32 = 0;
 
     for row in input.lines() {
-        answer += find_min_max_digits(row);
+        answer += get_number_from_text(row);
     }
 
     answer.to_string()
