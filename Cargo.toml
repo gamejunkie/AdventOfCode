@@ -6,3 +6,5 @@ members = ["2023/day-*"]
 
 [workspace.dependencies]
 itertools = "0.12.0"
+strum = "0.25"
+strum_macros = "0.25"
