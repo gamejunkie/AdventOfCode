@@ -9,8 +9,6 @@ fn main() {
 }
 
 fn process(input: &str) -> String {
-    let mut answer: i32 = 0;
-
     let mut winning_numbers: Vec<Vec<&str>> = Vec::new();
     let mut my_numbers: Vec<Vec<&str>> = Vec::new();
 
@@ -24,6 +22,8 @@ fn process(input: &str) -> String {
         my_numbers.push(my_list);
     }
 
+    let mut card_copy_count = vec![1; my_numbers.len()];
+
     for (row_num, my_number_list) in my_numbers.iter().enumerate() {
         let winning_matches: Vec<&str> = my_number_list
             .iter()
@@ -31,9 +31,12 @@ fn process(input: &str) -> String {
             .cloned()
             .collect();
 
-        let base: f64 = 2.0;
-        answer += base.powf(winning_matches.len() as f64 - 1.0) as i32;
-    }
+        let total_matches = winning_matches.len();
 
-    answer.to_string()
+        for number in 1..=total_matches {
+            card_copy_count[row_num + number] += card_copy_count[row_num];
+        }
+    }
+    let count: usize = card_copy_count.iter().sum();
+    count.to_string()
 }
