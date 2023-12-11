@@ -2,7 +2,7 @@
 resolver="2"
 
 # A new entry will be required for each year.
-members = ["2023/day-*"]
+members = ["aoc", "aoc20*"]
 
 [workspace.dependencies]
 itertools = "0.12.0"
