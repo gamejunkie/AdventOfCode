@@ -10,7 +10,7 @@ pub mod part1 {
         let input = include_str!("./testdata/day?-input.txt");
 
         for (row_num, row) in input.lines().enumerate() {
-            if is_valid_game(row) {
+            if main_logic(row) {
                 answer += row_num + 1;
             }
         }
@@ -33,7 +33,7 @@ pub mod part2 {
         let input = include_str!("./testdata/day?-input.txt");
 
         for (row_num, row) in input.lines().enumerate() {
-            if is_valid_game(row) {
+            if main_logic(row) {
                 answer += row_num + 1;
             }
         }
